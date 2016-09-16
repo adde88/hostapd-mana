@@ -1,6 +1,25 @@
-hostapd MANA
+This repo. contains a patched version of hostapd-mana, that will run on OpenWRT Chaos Calmer (ar71xx)
+The OpenWRT Makefile is located at this repo: https://github.com/adde88/hostapd-mana-openwrt
+
+My main goal was to get it working for the 6.th gen. Wifi Pineapple NANO, and TETRA, and IT DOES!
+IPK file is here: https://github.com/adde88/hostapd-mana-openwrt/blob/master/bin/ar71xx/packages/base/hostapd-mana_2016-09-16_ar71xx.ipk
+
+Update: 16.09.2016:
+This will install hostapd-mana on your pineapple nano and tetra.
+config files are located: /etc/mana-toolkit
+and the scripts are at: /usr/share/mana-toolkit/
+
+The main script to init. everything is /usr/share/mana-toolkit/mana-pineapple.sh
+
+The repo. also contains IPK+src files for asleap, sslstrip, dns2proxy, and the complete MANA package.
+BUT the current script does NOT start sslstrip+dns2proxy...
+It should run, but i haven't gotten around to testing it yet.
+As my main goal was to build hostapd-mana for the pineapple, the rest should be a smooth ride. :)
+
+Yours truly, Andreas Nilsen! - @adde88
+
 ================
-by Dominic White (singe) & Ian de Villiers @ sensepost (research@sensepost.com)
+HOSTAPD-MANA made by Dominic White (singe) & Ian de Villiers @ sensepost (research@sensepost.com)
 
 Overview
 --------
