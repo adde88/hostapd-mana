@@ -6,7 +6,7 @@ IPK file is here: https://github.com/adde88/hostapd-mana-openwrt/blob/master/bin
 
 Update: 16.09.2016:
 This will install hostapd-mana on your pineapple nano and tetra.
-config files are located: /etc/mana-toolkit
+Config files are located: /etc/mana-toolkit
 and the scripts are at: /usr/share/mana-toolkit/
 
 The main script to init. everything is /usr/share/mana-toolkit/mana-pineapple.sh
