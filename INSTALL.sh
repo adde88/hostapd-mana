@@ -1,9 +1,8 @@
 #!/bin/bash
 #
 # Installation script for MANA-Toolkit, for the Pineapple NANO and TETRA.
+# Written by: Andreas Nilsen - adde88@gmail.com - https://www.github.com/adde88
 #
-# The main directory will be on the SD-card
-# This will only happen on the Pineapple NANO
 # Starting MANA-Toolkit Install.
 #
 # Download installation-files to temporary directory.
