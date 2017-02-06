@@ -1,4 +1,4 @@
-hostapd MANA - Pineapple NANO+TETRA
+DEVELOPER VERSION: hostapd-mana v2.6 @ Pineapple NANO + TETRA / OpenWRT  
 ===================================
 hostapd-mana patches by Dominic White (singe) & Ian de Villiers @ sensepost (research@sensepost.com)  
 ported to openwrt by: Andreas Nilsen @adde88
