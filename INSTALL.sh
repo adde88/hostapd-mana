@@ -35,6 +35,8 @@ else
 fi
 # Cleanup
 rm hostapd-mana_"$mana_version"_ar71xx.* asleap_2.2-1_ar71xx.*
+# Disable stunnel init-script.
+/etc/init.d/stunnel disable
 echo -e "${RED}Installation completed!"
 echo -e "${NC}Launch MANA by typing: '${RED}launch-mana' ${NC}in the terminal."
 exit 0
