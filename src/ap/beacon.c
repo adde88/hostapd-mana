@@ -852,6 +852,13 @@ void handle_probe_req(struct hostapd_data *hapd,
 	}
 #endif /* CONFIG_P2P */
 
+if (strcmp(hapd->iconf->mana_ssid_filter_file,"NOT_SET")){
+	if(!hostapd_ssidlist_found(hapd->conf->ssid_filter, hapd->conf->num_ssid_filter, wpa_ssid_txt(elems.ssid, elems.ssid_len))){
+		wpa_printf(MSG_DEBUG, "MANA - SSID '%s' not found in list.", wpa_ssid_txt(elems.ssid, elems.ssid_len));
+		return;
+	}
+}
+
 #ifdef CONFIG_TAXONOMY
 	{
 		struct sta_info *sta;

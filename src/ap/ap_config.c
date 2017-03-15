@@ -624,6 +624,21 @@ void hostapd_config_free(struct hostapd_config *conf)
  *
  * Perform a binary search for given MAC address from a pre-sorted list.
  */
+
+int hostapd_ssidlist_found(struct ssid_filter_entry *list, int num_entries, const char *ssid)
+{
+	int start, end;
+	start = 0;
+	end = num_entries - 1;
+	while (start <= end) {
+		if(!strcmp(list[start].ssid, ssid)){
+			return 1;
+		}
+		start = start + 1;
+	}
+	return 0;
+}
+
 int hostapd_maclist_found(struct mac_acl_entry *list, int num_entries,
 			  const u8 *addr, struct vlan_description *vlan_id)
 {
