@@ -95,18 +95,18 @@ function is_dns2proxy_running {
 }
 
 function is_dnsmasq_running {
-	dnsmasq_pidfile="/var/run/dnsmasq/dnsmasq-mana.pid"
+	dnsmasq_pid=`pgrep -f "/etc/mana-toolkit/dnsmasq-dhcpd.conf"`
 	if [ "$noupstream" != 1 ];then
-		if [ ! -f "$dnsmasq_pidfile" ];then
+		if [ "$dnsmasq_pid" == "" ];then
 			echo -e "${RED}Exiting! (Error code: 8)\n${NC}DHCP Server (dnsmasq) did not launch correctly."
 			shutdown_mana
 			exit 8
 		else
-			dnsmasq_pid=`cat $"dnsmasq_pidfile"`
+			dnsmasq_pid=`pgrep -f "/etc/mana-toolkit/dnsmasq-dhcpd.conf"`
 			echo -e "${GREEN}DHCP Server ${NC} is running with pid: ${dnsmasq_pid}\n"
 		fi
 	else
-		echo -e "${GREEN}DHCP Server ${NC} check is skipped while running in noupstream mode.\n"
+		echo -e "${RED}DHCP Server ${NC} check is skipped while running in noupstream mode.\n"
 	fi
 }
 
@@ -122,8 +122,8 @@ function is_netcreds_running {
 }
 
 function safe_startup {
-	if [ -f "$dnsmasq_pidfile" ]; then
-		dnsmasq_pid=`cat $"dnsmasq_pidfile"`
+	dnsmasq_pid=`pgrep -f "/etc/mana-toolkit/dnsmasq-dhcpd.conf"`
+	if [ "$dnsmasq_pid" != "" ];then
 		kill -9 "$dnsmasq_pid" &>/dev/null
 	fi
 	killall -9 hostapd-mana &>/dev/null
@@ -280,6 +280,7 @@ function shutdown_mana {
 	# Remove iface and route
 	ip addr flush dev "$phy"
 	ip link set "$phy" down
+	/etc/init.d/dnsmasq start
 	echo -e "\n${RED}Mana Toolkit ${NC} has been shutdown."
 }
 
@@ -307,12 +308,17 @@ function pause_while_working {
 	) </dev/tty
 }
 
+function dnsmasq_setup {
+	/etc/init.d/dnsmasq stop
+	dnsmasq -z -C "$dhcp_conf" -i "$phy" -I lo
+}
+
 function startup {
 	if [ "$flag" == "1" ];then
 				check_internet                                                                  # Check for a working internet connection.
 				nat_forward                                                                     # Setup interfaces and forward traffic
 				hostapd-mana "$conf" &                                                          # Start hostapd-mana
-				dnsmasq -z -C "$dhcp_conf" -i "$phy" -I lo -x "$dnsmasq_pidfile"		 		# Setup DHCP Server
+				dnsmasq_setup																	# Setup DHCP Server
 				fking_rule                                                                      # Add fking rule to table 1006
 				flush_iptables                                                                  # Flush
 				masquerade_start                                                                # Masquerade
@@ -340,3 +346,4 @@ function startup {
 	startup         					# Starts MANA-Toolkit core-functions.
 	shutdown_mana   					# Shuts down the MANA-Toolkit after user input
 	exit 0          					# Exit gracefully
+
