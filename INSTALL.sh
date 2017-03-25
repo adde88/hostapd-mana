@@ -29,6 +29,7 @@ if [ -e /sd ]; then
 	mkdir -p /sd/usr/lib/python2.7
 	ln -s /sd/usr/lib/python2.7 /usr/lib/python2.7
 	opkg --dest sd --force-overwrite install asleap_2.2-1_ar71xx.ipk hostapd-mana_"$mana_version"_ar71xx.ipk
+	ln -s /sd/etc/mana-toolkit /etc/mana-toolkit
 else
 	# Tetra installation / general install.
 	opkg --force-overwrite install asleap_2.2-1_ar71xx.ipk hostapd-mana_"$mana_version"_ar71xx.ipk
