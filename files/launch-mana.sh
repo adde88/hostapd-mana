@@ -10,9 +10,9 @@
 # License below:
 # do What The Fuck you want to Public License
 
-# Version 1.0, March 2000
-# Copyright (C) 2000 Banlu Kemiyatorn (]d).
-# 136 Nives 7 Jangwattana 14 Laksi Bangkok
+# Version 1.0, May 2017
+# Copyright (C) 2017 Andreas Nilsen (]d).
+# Takelvveien 408, 9321, Moen - Norway
 # Everyone is permitted to copy and distribute verbatim copies
 # of this license document, but changing it is not allowed.
 
@@ -21,11 +21,6 @@
 # DO WHAT THE FUCK YOU WANT TO.
 #
 #
-# Colorize the shit out of this script lol:
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m'
 # Some variables.
 phy="$1"
 nat_value="$2"
@@ -34,6 +29,8 @@ flag="1"
 gw_ip="10.0.0.1"
 subnet=`echo "$gw_ip"|cut -b1-7`
 cidr="24"
+MYTIME=`date +%s`
+mana_output_file="/pineapple/modules/ManaToolkit/log/hostapd-mana_output.log"
 
 sed -i 's/127.0.0.1/8.8.8.8/g' /etc/resolv.conf         			# This fixes a "strange" bug on the Pineapples. Without this: internet activity will not be found. Haven't debugged it yet. Therefore this dirty fix.
 
@@ -53,44 +50,44 @@ function noupstream_check {
 function is_mana_running {
 	mana_pid=`pgrep hostapd-mana`
 	if [ "$mana_pid" == "" ];then
-		echo -e "${RED}Exiting! (Error code: 4)\n${NC}hostapd-mana was not launched correctly."
+		echo -e "\n${RED}Exiting! (Error code: 4)\n${NC}hostapd-mana was not launched correctly."
 		shutdown_mana
 		exit 4
 	else
-		echo -e "${GREEN}hostapd-mana ${NC} is running with pid: ${mana_pid}\n"
+		echo -e "\n${GREEN}hostapd-mana ${NC} is running with pid: ${mana_pid}"
 	fi
 }
 
 function is_sslstrip_running {
 	sslstrip_pid=`pgrep -f sslstrip.py`
 	if [ "$sslstrip_pid" == "" ];then
-		echo -e "${RED}Exiting! (Error code: 5)\n${NC}SSLstrip+ was not launched correctly."
+		echo -e "\n${RED}Exiting! (Error code: 5)\n${NC}SSLstrip+ was not launched correctly."
 		shutdown_mana
 		exit 5
 	else
-		echo -e "${GREEN}SSLstrip+ ${NC} is running with pid: ${sslstrip_pid}\n"
+		echo -e "\n${GREEN}SSLstrip+ ${NC} is running with pid: ${sslstrip_pid}"
 	fi
 }
 
 function is_sslsplit_running {
 	sslsplit_pid=`pgrep sslsplit`
 	if [ "$sslsplit_pid" == "" ];then
-		echo -e "${RED}Exiting! (Error code: 6)\n${NC}SSLsplit was not launched correctly."
+		echo -e "\n${RED}Exiting! (Error code: 6)\n${NC}SSLsplit was not launched correctly."
 		shutdown_mana
 		exit 6
 	else
-		echo -e "${GREEN}SSLsplit ${NC} is running with pid: ${sslsplit_pid}\n"
+		echo -e "\n${GREEN}SSLsplit ${NC} is running with pid: ${sslsplit_pid}"
 	fi
 }
 
 function is_dns2proxy_running {
 	dns2proxy_pid=`pgrep -f dns2proxy.py`
 	if [ "$dns2proxy_pid" == "" ];then
-		echo -e "${RED}Exiting! (Error code: 7)\n${NC}DNS2Proxy was not launched correctly."
+		echo -e "\n${RED}Exiting! (Error code: 7)\n${NC}DNS2Proxy was not launched correctly."
 		shutdown_mana
 		exit 7
 	else
-		echo -e "${GREEN}DNS2Proxy ${NC} is running with pid: ${dns2proxy_pid}\n"
+		echo -e "\n${GREEN}DNS2Proxy ${NC} is running with pid: ${dns2proxy_pid}"
 	fi
 }
 
@@ -98,38 +95,54 @@ function is_dnsmasq_running {
 	dnsmasq_pid=`pgrep -f "/etc/mana-toolkit/dnsmasq-dhcpd.conf"`
 	if [ "$noupstream" != 1 ];then
 		if [ "$dnsmasq_pid" == "" ];then
-			echo -e "${RED}Exiting! (Error code: 8)\n${NC}DHCP Server (dnsmasq) did not launch correctly."
+			echo -e "\n${RED}Exiting! (Error code: 8)\n${NC}DHCP Server (dnsmasq) did not launch correctly."
 			shutdown_mana
 			exit 8
 		else
 			dnsmasq_pid=`pgrep -f "/etc/mana-toolkit/dnsmasq-dhcpd.conf"`
-			echo -e "${GREEN}DHCP Server ${NC} is running with pid: ${dnsmasq_pid}\n"
+			echo -e "\n${GREEN}DHCP Server ${NC} is running with pid: ${dnsmasq_pid}"
 		fi
 	else
-		echo -e "${RED}DHCP Server ${NC} check is skipped while running in noupstream mode.\n"
+		echo -e "\n${RED}DHCP Server ${NC} check is skipped while running in noupstream mode."
 	fi
 }
 
 function is_netcreds_running {
 	netcreds_pid=`pgrep -f net-creds.py`
 	if [ "$netcreds_pid" == "" ];then
-		echo -e "${RED}Exiting! (Error code: 9)\n${NC}Net-Creds was not launched correctly."
+		echo -e "\n${RED}Exiting! (Error code: 9)\n${NC}Net-Creds was not launched correctly."
 		shutdown_mana
 		exit 9
 	else
-		echo -e "${GREEN}Net-Creds ${NC} is running with pid: ${netcreds_pid}\n"
+		echo -e "\n${GREEN}Net-Creds ${NC} is running with pid: ${netcreds_pid}"
 	fi
 }
 
 function safe_startup {
+	mana_pid=`pgrep hostapd-mana`
+	sslstrip_pid=`pgrep -f sslstrip.py`
+	sslsplit_pid=`pgrep sslsplit`
+	dns2proxy_pid=`pgrep -f dns2proxy.py`
 	dnsmasq_pid=`pgrep -f "/etc/mana-toolkit/dnsmasq-dhcpd.conf"`
+	netcreds_pid=`pgrep -f net-creds.py`
 	if [ "$dnsmasq_pid" != "" ];then
 		kill -9 "$dnsmasq_pid" &>/dev/null
 	fi
-	killall -9 hostapd-mana &>/dev/null
-	killall -9 sslsplit &>/dev/null
-	killall -9 python &>/dev/null
-
+	if [ "$mana_pid" != "" ];then
+		kill -9 "$mana_pid" &>/dev/null
+	fi
+	if [ "$sslstrip_pid" != "" ];then
+		kill -9 "$sslstrip_pid" &>/dev/null
+	fi
+	if [ "$sslsplit_pid" != "" ];then
+		kill -9 "$sslsplit_pid" &>/dev/null
+	fi
+	if [ "$dns2proxy_pid" != "" ];then
+		kill -9 "$dns2proxy_pid" &>/dev/null
+	fi
+	if [ "$netcreds_pid" != "" ];then
+		kill -9 "$netcreds_pid" &>/dev/null
+	fi
 }
 
 function select_dev {
@@ -155,15 +168,15 @@ function check_sd {
 		dhcp_conf="/sd/etc/mana-toolkit/dnsmasq-dhcpd.conf"
 		sslstrip_dir="/sd/usr/share/mana-toolkit/sslstrip-hsts/sslstrip2/"                
 		sslstrip_bin="/sd/usr/share/mana-toolkit/sslstrip-hsts/sslstrip2/sslstrip.py"
-		sslstrip_logfile="/pineapple/modules/ManaToolkit/log/sslstrip.log"
+		sslstrip_logfile="/pineapple/modules/ManaToolkit/log/SSLStrip+/sslstrip.log"
 		dns2proxy_dir="/sd/usr/share/mana-toolkit/sslstrip-hsts/dns2proxy/"
 		dns2proxy_bin="/sd/usr/share/mana-toolkit/sslstrip-hsts/dns2proxy/dns2proxy.py"
-		sslsplit_logdir="/pineapple/modules/ManaToolkit/log/"
+		sslsplit_logdir="/pineapple/modules/ManaToolkit/log/SSL-Split"
 		ca_cert_pem="/sd/usr/share/mana-toolkit/cert/rogue-ca.pem"
 		ca_key="/sd/usr/share/mana-toolkit/cert/rogue-ca.key"
-		sslsplit_connect_log="/pineapple/modules/ManaToolkit/log/sslsplit-connect.log"
+		sslsplit_connect_log="/pineapple/modules/ManaToolkit/log/SSL-Split/sslsplit-connect.log"
 		netcreds_bin="/sd/usr/share/mana-toolkit/net-creds/net-creds.py"
-		netcreds_log="/pineapple/modules/ManaToolkit/log/net-creds.log"
+		netcreds_log="/pineapple/modules/ManaToolkit/log/Net-Creds/net-creds.log"
 		varlib="/sd/var/lib/mana-toolkit/"
 		ssid_filter="/sd/etc/mana-toolkit/hostapd.ssid_filter"
 	else
@@ -171,15 +184,15 @@ function check_sd {
 		dhcp_conf="/etc/mana-toolkit/dnsmasq-dhcpd.conf"
 		sslstrip_dir="/usr/share/mana-toolkit/sslstrip-hsts/sslstrip2/"
 		sslstrip_bin="/usr/share/mana-toolkit/sslstrip-hsts/sslstrip2/sslstrip.py"
-		sslstrip_logfile="/pineapple/modules/ManaToolkit/log/sslstrip.log"
+		sslstrip_logfile="/pineapple/modules/ManaToolkit/log/SSLStrip+/sslstrip.log"
 		dns2proxy_dir="/usr/share/mana-toolkit/sslstrip-hsts/dns2proxy/"                
 		dns2proxy_bin="/usr/share/mana-toolkit/sslstrip-hsts/dns2proxy/dns2proxy.py"
-		sslsplit_logdir="/pineapple/modules/ManaToolkit/log/"
+		sslsplit_logdir="/pineapple/modules/ManaToolkit/log/SSL-Split"
 		ca_cert_pem="/usr/share/mana-toolkit/cert/rogue-ca.pem"
 		ca_key="/usr/share/mana-toolkit/cert/rogue-ca.key"
-		sslsplit_connect_log="/pineapple/modules/ManaToolkit/log/sslsplit-connect.log"
+		sslsplit_connect_log="/pineapple/modules/ManaToolkit/log/SSL-Split/sslsplit-connect.log"
 		netcreds_bin="/usr/share/mana-toolkit/net-creds/net-creds.py"
-		netcreds_log="/pineapple/modules/ManaToolkit/log/net-creds.log"
+		netcreds_log="/pineapple/modules/ManaToolkit/log/Net-Creds/net-creds.log"
 		varlib="/var/lib/mana-toolkit/"
 		ssid_filter="/etc/mana-toolkit/hostapd.ssid_filter"
 	fi
@@ -313,11 +326,20 @@ function dnsmasq_setup {
 	dnsmasq -z -C "$dhcp_conf" -i "$phy" -I lo
 }
 
+function hostapd-mana_start {
+	hostapd-mana "$conf" | tee "$mana_output_file" &
+}
+
+function success_message {
+	echo -e "\nMana Toolkit has started ${GREEN}successfully${NC} and is now running in the background.\nRun ${RED}kill-mana${NC} to stop Mana Toolkit."
+	echo -e "\nLog files are stored at ${BLUE}/pineapple/modules/ManaToolkit/log/${NC}\nAnd can be downloaded using the module."
+}
+
 function startup {
 	if [ "$flag" == "1" ];then
 				check_internet                                                                  # Check for a working internet connection.
 				nat_forward                                                                     # Setup interfaces and forward traffic
-				hostapd-mana "$conf" &                                                          # Start hostapd-mana
+				hostapd-mana_start																# Start hostapd-mana
 				dnsmasq_setup																	# Setup DHCP Server
 				fking_rule                                                                      # Add fking rule to table 1006
 				flush_iptables                                                                  # Flush
@@ -333,7 +355,8 @@ function startup {
 				is_dns2proxy_running
 				is_sslsplit_running
 				is_netcreds_running
-				pause_while_working																# This pauses the script, and waits for a user-input which will kill the script.
+				success_message																	# Display a success message, and fade into darkness.
+				#pause_while_working															# This pauses the script, and waits for a user-input which will kill the script.
 	fi
 }
 
@@ -344,6 +367,5 @@ function startup {
 	safe_startup    					# Kills any running processes that could interfere with MANA.
 	check_interface    					# Check if the wireless device is up
 	startup         					# Starts MANA-Toolkit core-functions.
-	shutdown_mana   					# Shuts down the MANA-Toolkit after user input
+	#shutdown_mana   					# Shuts down the MANA-Toolkit after user input
 	exit 0          					# Exit gracefully
-
