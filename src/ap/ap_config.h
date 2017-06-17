@@ -62,8 +62,8 @@ struct mac_acl_entry {
 	struct vlan_description vlan_id;
 };
 
-struct ssid_filter_entry {
-	char ssid[32]; // TODO: need to use global max ssid length
+struct ssid_filter_entry { //MANA
+	char ssid[SSID_MAX_LEN];
 };
 
 struct hostapd_radius_servers;
@@ -733,8 +733,8 @@ void hostapd_config_free_bss(struct hostapd_bss_config *conf);
 void hostapd_config_free(struct hostapd_config *conf);
 int hostapd_maclist_found(struct mac_acl_entry *list, int num_entries,
 			  const u8 *addr, struct vlan_description *vlan_id);
-int hostapd_ssidlist_found(struct ssid_filter_entry *list, int num_entries,
-				const char *ssid);
+int hostapd_ssidlist_found(struct ssid_filter_entry *list, int num_entires, //MANA
+			  const char *ssid);
 int hostapd_rate_found(int *list, int rate);
 const u8 * hostapd_get_psk(const struct hostapd_bss_config *conf,
 			   const u8 *addr, const u8 *p2p_dev_addr,
