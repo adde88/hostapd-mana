@@ -10,9 +10,9 @@
 # License below:
 # do What The Fuck you want to Public License
 
-# Version 1.0, May 2017
-# Copyright (C) 2017 Andreas Nilsen (]d).
-# Takelvveien 408, 9321, Moen - Norway
+# Version 1.0, March 2000
+# Copyright (C) 2000 Banlu Kemiyatorn (]d).
+# 136 Nives 7 Jangwattana 14 Laksi Bangkok
 # Everyone is permitted to copy and distribute verbatim copies
 # of this license document, but changing it is not allowed.
 
@@ -21,6 +21,11 @@
 # DO WHAT THE FUCK YOU WANT TO.
 #
 #
+# Colorize the shit out of this script lol:
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+NC='\033[0m'
 # Some variables.
 phy="$1"
 nat_value="$2"
@@ -356,7 +361,7 @@ function startup {
 				is_sslsplit_running
 				is_netcreds_running
 				success_message																	# Display a success message, and fade into darkness.
-				#pause_while_working															# This pauses the script, and waits for a user-input which will kill the script.
+				#pause_while_working																# This pauses the script, and waits for a user-input which will kill the script.
 	fi
 }
 
@@ -369,3 +374,4 @@ function startup {
 	startup         					# Starts MANA-Toolkit core-functions.
 	#shutdown_mana   					# Shuts down the MANA-Toolkit after user input
 	exit 0          					# Exit gracefully
+
