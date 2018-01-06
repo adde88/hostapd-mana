@@ -21,6 +21,9 @@
 # DO WHAT THE FUCK YOU WANT TO.
 #
 #
+# Need to setup some env. vars after fw 2.0.2
+export PATH=$PATH:/sd/usr/bin:/sd/usr/sbin:/sd/bin:/sd/sbin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/sd/lib:/sd/usr/lib
 # Some variables.
 phy="$1"
 nat_value="$2"
