@@ -213,7 +213,7 @@ function check_interface {
 }
 
 function check_cpu {
-	CPU=`cat /proc/cpuinfo | grep -i machine | awk -F":" '{print $2}'`
+	CPU=`cat /proc/cpuinfo | grep -i machine | awk -F":" '{print $2}' | awk -F" " '{print $2}'`
 	#echo -e "Current CPU: ${RED}"$CPU"${NC}."                                      # TO BE USED IN FUTURE UPDATE, MAYBE?
 }
 
