@@ -459,7 +459,8 @@ static void show_version(void)
  		"See https://github.com/sensepost/hostapd-mana for more\n"
  		"By singe (dominic@sensepost.com) & ian (ian@sensepost.com)\n"
  		"Original karma patches by Robin Wood - robin@digininja.org\n"
- 		"Original EAP patches by Brad Antoniewicz @brad_anton\n");
+ 		"Original EAP patches by Brad Antoniewicz @brad_anton\n"
+		"Ported to OpenWRT by Andreas Nilsen @adde88 (adde88@gmail.com)\n");
 }
 
 
