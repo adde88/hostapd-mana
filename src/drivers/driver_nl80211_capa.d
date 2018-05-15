@@ -1,7 +1,7 @@
 ../src/drivers/driver_nl80211_capa.o: \
  ../src/drivers/driver_nl80211_capa.c \
- /root/gits/hostapd-2.6/src/utils/includes.h \
- /root/gits/hostapd-2.6/src/utils/build_config.h \
+ /root/gits/hostapd-mana/src/utils/includes.h \
+ /root/gits/hostapd-mana/src/utils/build_config.h \
  /usr/include/libnl3/netlink/genl/genl.h \
  /usr/include/libnl3/netlink/netlink.h \
  /usr/include/libnl3/netlink/netlink-compat.h \
@@ -14,15 +14,15 @@
  /usr/include/libnl3/netlink/list.h /usr/include/libnl3/netlink/msg.h \
  /usr/include/libnl3/netlink/attr.h /usr/include/libnl3/netlink/addr.h \
  /usr/include/libnl3/netlink/data.h \
- /root/gits/hostapd-2.6/src/utils/common.h \
- /root/gits/hostapd-2.6/src/utils/os.h \
- /root/gits/hostapd-2.6/src/utils/wpa_debug.h \
- /root/gits/hostapd-2.6/src/utils/wpabuf.h \
- /root/gits/hostapd-2.6/src/common/ieee802_11_defs.h \
- /root/gits/hostapd-2.6/src/common/ieee802_11_common.h \
- /root/gits/hostapd-2.6/src/common/defs.h \
- /root/gits/hostapd-2.6/src/common/qca-vendor.h \
- /root/gits/hostapd-2.6/src/common/qca-vendor-attr.h \
+ /root/gits/hostapd-mana/src/utils/common.h \
+ /root/gits/hostapd-mana/src/utils/os.h \
+ /root/gits/hostapd-mana/src/utils/wpa_debug.h \
+ /root/gits/hostapd-mana/src/utils/wpabuf.h \
+ /root/gits/hostapd-mana/src/common/ieee802_11_defs.h \
+ /root/gits/hostapd-mana/src/common/ieee802_11_common.h \
+ /root/gits/hostapd-mana/src/common/defs.h \
+ /root/gits/hostapd-mana/src/common/qca-vendor.h \
+ /root/gits/hostapd-mana/src/common/qca-vendor-attr.h \
  ../src/drivers/driver_nl80211.h ../src/drivers/nl80211_copy.h \
- /root/gits/hostapd-2.6/src/utils/list.h ../src/drivers/driver.h \
- /root/gits/hostapd-2.6/src/common/defs.h
+ /root/gits/hostapd-mana/src/utils/list.h ../src/drivers/driver.h \
+ /root/gits/hostapd-mana/src/common/defs.h
