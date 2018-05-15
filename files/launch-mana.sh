@@ -24,6 +24,11 @@
 # Need to setup some env. vars after fw 2.0.2
 export PATH=$PATH:/sd/usr/bin:/sd/usr/sbin:/sd/bin:/sd/sbin
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/sd/lib:/sd/usr/lib
+# setup some dirs needed to make it work with the Pineapple Module
+mkdir -p /pineapple/modules/ManaToolkit/log/Net-Creds
+mkdir -p /pineapple/modules/ManaToolkit/log/SSL-Split
+mkdir -p /pineapple/modules/ManaToolkit/log/hostapd-mana
+mkdir -p /pineapple/modules/ManaToolkit/log/SSLStrip+
 # Some variables.
 phy="$1"
 nat_value="$2"
