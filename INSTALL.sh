@@ -8,12 +8,12 @@
 # Variables and colors.
 RED='\033[0;31m'
 NC='\033[0m'
-mana_version="2.6-5"
+mana_version="2018-16-05"
 MANA="https://github.com/adde88/hostapd-mana-openwrt/raw/master/bin/ar71xx/packages/base/hostapd-mana_"$mana_version"_ar71xx.ipk"
 ASLEAP="https://github.com/adde88/hostapd-mana-openwrt/raw/master/bin/ar71xx/packages/base/asleap_2.2-1_ar71xx.ipk"
 #
 echo -e "${RED}Installing: ${NC}MANA-Toolkit."
-echo -e "Go grab a cup of coffee, this can take a little while...\n"
+echo -e "Go grab a cup of coffee, this will take a while...\n"
 # Download installation-files to temporary directory, and then update OPKG repositories.
 cd /tmp
 opkg update
@@ -36,8 +36,14 @@ else
 fi
 # Cleanup
 rm hostapd-mana_"$mana_version"_ar71xx.* asleap_2.2-1_ar71xx.*
-# Disable stunnel init-script.
+# Disable stunnel init-script at boot.
 /etc/init.d/stunnel disable
+# Let's pre-compile all the python-files, to reduce CPU usage
+echo -e "${NC}Pre-compiling all python libraries, to reduce load...\n"
+echo -e "This will take a minute..."
+python -m compileall 2>&1 >/dev/null
+python -m compileall /usr/share/mana-toolkit/* 2>&1 >/dev/null
+echo -e "${RED}Finished compiling!\n\n"
 echo -e "${RED}Installation completed!"
 echo -e "${NC}Launch MANA by typing: '${RED}launch-mana' ${NC}in the terminal."
 exit 0
