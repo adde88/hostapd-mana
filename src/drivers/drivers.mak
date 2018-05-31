@@ -159,6 +159,7 @@ endif
 
 ifdef NEED_RFKILL
 DRV_OBJS += ../src/drivers/rfkill.o
+DRV_WPA_CFLAGS += -DCONFIG_RFKILL
 endif
 
 ifdef NEED_RADIOTAP
