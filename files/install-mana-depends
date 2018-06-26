@@ -14,11 +14,11 @@ if [ ! -d "$DIRECTORY" ]; then
   wget -i /etc/mana-toolkit/dependencies.txt -P /tmp/mana_dependencies/ --progress=bar:force:noscroll
   echo -e '\nInstalling dependencies...'
   if [ ! -d "$SD" ]; then
-    opkg install "$DIRECTORY"*.ipk
+    opkg install "$DIRECTORY"*.ipk --force-checksum
     echo -e '\nFinished installing dependencies!'
     exit 0
   fi
-  opkg install "$DIRECTORY"*.ipk --dest sd
+  opkg install "$DIRECTORY"*.ipk --dest sd --force-checksum
   echo -e '\nFinished installing dependencies!'
   exit 0
 fi
@@ -27,11 +27,11 @@ fi
 if [ -d "$DIRECTORY" ]; then
   echo -e '\nInstalling dependencies...'
   if [ ! -d "$SD" ]; then
-    opkg install "$DIRECTORY"*.ipk
+    opkg install "$DIRECTORY"*.ipk --force-checksum
     echo -e '\nFinished installing dependencies!'
     exit 0
   fi
-  opkg install "$DIRECTORY"*.ipk --dest sd
+  opkg install "$DIRECTORY"*.ipk --dest sd --force-checksum
   echo -e '\nFinished installing dependencies!'
   exit 0
 fi
