@@ -8,7 +8,7 @@
 # Variables and colors.
 RED='\033[0;31m'
 NC='\033[0m'
-mana_version="2018-31-05"
+mana_version="2.6-7"
 MANA="https://github.com/adde88/hostapd-mana-openwrt/raw/master/bin/ar71xx/packages/base/hostapd-mana_"$mana_version"_ar71xx.ipk"
 ASLEAP="https://github.com/adde88/hostapd-mana-openwrt/raw/master/bin/ar71xx/packages/base/asleap_2.2-1_ar71xx.ipk"
 #
