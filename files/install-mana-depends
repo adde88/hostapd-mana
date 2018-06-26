@@ -1,0 +1,38 @@
+#!/bin/bash
+#
+# This script was made to install the python-related dependencies for Mana Toolkit
+# -Zylla, 2018, <adde88@gmail.com>
+#
+# Setup some vars...
+DIRECTORY="/tmp/mana_dependencies/"
+SD="/sd"
+#
+# Let's check if the directory does NOT exist, and re-download the dependencies...
+if [ ! -d "$DIRECTORY" ]; then
+  echo -e '\nDownloading python-related dependencies,as they seem to be missing...'
+  mkdir -p "$DIRECTORY"
+  wget -i /etc/mana-toolkit/dependencies.txt -P /tmp/mana_dependencies/ --progress=bar:force:noscroll
+  echo -e '\nInstalling dependencies...'
+  if [ ! -d "$SD" ]; then
+    opkg install "$DIRECTORY"*.ipk
+    echo -e '\nFinished installing dependencies!'
+    exit 0
+  fi
+  opkg install "$DIRECTORY"*.ipk --dest sd
+  echo -e '\nFinished installing dependencies!'
+  exit 0
+fi
+#
+# Let's continue the script as normal if the directory DOES exist
+if [ -d "$DIRECTORY" ]; then
+  echo -e '\nInstalling dependencies...'
+  if [ ! -d "$SD" ]; then
+    opkg install "$DIRECTORY"*.ipk
+    echo -e '\nFinished installing dependencies!'
+    exit 0
+  fi
+  opkg install "$DIRECTORY"*.ipk --dest sd
+  echo -e '\nFinished installing dependencies!'
+  exit 0
+fi
+# This should be working. Let me know if anything is wrong, or maybe should be improven...
