@@ -301,6 +301,8 @@ function shutdown_mana {
 	# Remove iface and route
 	ip addr flush dev "$phy"
 	ip link set "$phy" down
+	ifconfig "phy" up
+	ifconfig "$phy" up
 	/etc/init.d/dnsmasq start
 	echo -e "\n${RED}Mana Toolkit ${NC} has been shutdown."
 }
@@ -369,7 +371,7 @@ function startup {
 }
 
 	startup_message						# All scripts need a startup-message.
-	iptables-save > /tmp/rules.txt		# Save iptables
+	iptables-save > /tmp/rules.txt				# Save iptables
 	check_sd        					# Tries to find out if any SD-cards are installed. If so, it changes directory variables to rather use the SD-card. ** Pineapple NANO/TETRA "Fix" **
 	select_dev      					# Lets the user select another wireless device to be used. If none is selected: the default device will be used (wlan1)
 	safe_startup    					# Kills any running processes that could interfere with MANA.
