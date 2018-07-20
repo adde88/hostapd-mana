@@ -2437,9 +2437,9 @@ void ieee802_1x_notify_pre_auth(struct eapol_state_machine *sm, int pre_auth)
 }
 
 
-static const char * bool_txt(Boolean bool_val)
+static const char * bool_txt(Boolean val)
 {
-        return bool_val ? "TRUE" : "FALSE";
+	return val ? "TRUE" : "FALSE";
 }
 
 
