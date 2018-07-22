@@ -34,7 +34,7 @@ if [ "$sslsplit_pid" != "" ];then
 	mkdir -p /pineapple/modules/ManaToolkit/log/SSL-Split/${MYTIME}
 	kill -9 "$sslsplit_pid"
 	mv /pineapple/modules/ManaToolkit/log/SSL-Split/sslsplit-connect.log /pineapple/modules/ManaToolkit/log/SSL-Split/${MYTIME}/connect_${MYTIME_HR}.log
-	mv /pineapple/modules/ManaToolkit/log/SSL-Split/*.log /pineapple/modules/ManaToolkit/log/SSL-Split/${MYTIME}/
+	mv /pineapple/modules/ManaToolkit/log/SSL-Split/*/*.log /pineapple/modules/ManaToolkit/log/SSL-Split/${MYTIME}/
 fi
 if [ "$dns2proxy_pid" != "" ];then
 	kill -9 "$dns2proxy_pid"
