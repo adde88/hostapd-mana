@@ -41,4 +41,6 @@ rm hostapd-mana_"$mana_version"_ar71xx.* asleap_2.2-1_ar71xx.*
 echo -e "${RED}Installation completed!"
 echo -e "${NC}Type: ${RED}'install-mana-depends' ${NC}to install python-related dependencies."
 echo -e "${NC}Launch MANA by typing: '${RED}launch-mana' ${NC}in the terminal."
+# Let's set the default interface
+uci set ManaToolkit.run.interface="wlan1"
 exit 0
