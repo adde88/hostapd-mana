@@ -43,4 +43,5 @@ echo -e "${NC}Type: ${RED}'install-mana-depends' ${NC}to install python-related 
 echo -e "${NC}Launch MANA by typing: '${RED}launch-mana' ${NC}in the terminal."
 # Let's set the default interface
 uci set ManaToolkit.run.interface="wlan1"
+uci commit ManaToolkit.run.interface
 exit 0
