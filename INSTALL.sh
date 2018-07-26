@@ -25,9 +25,6 @@ wget "$MANA"
 # This will only happen on the Pineapple NANO.
 if [ -e /sd ]; then
 	# sym-link & nano install
-	rm -r /usr/lib/python2.7
-	mkdir -p /sd/usr/lib/python2.7
-	ln -s /sd/usr/lib/python2.7 /usr/lib/python2.7
 	opkg --dest sd --force-overwrite install asleap_2.2-1_ar71xx.ipk hostapd-mana_"$mana_version"_ar71xx.ipk sslsplit
 	ln -s /sd/etc/mana-toolkit /etc/mana-toolkit
 else
