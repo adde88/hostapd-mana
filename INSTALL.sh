@@ -8,31 +8,30 @@
 # Variables and colors.
 RED='\033[0;31m'
 NC='\033[0m'
-mana_version="2.6-13"
-MANA="https://github.com/adde88/hostapd-mana-openwrt/raw/master/bin/ar71xx/packages/base/hostapd-mana_"$mana_version"_ar71xx.ipk"
-ASLEAP="https://github.com/adde88/hostapd-mana-openwrt/raw/master/bin/ar71xx/packages/base/asleap_2.2-1_ar71xx.ipk"
+MANA=`grep -F "hostapd-mana_" /tmp/ManaToolkit/base | awk {'print $5'} | awk -F'"' {'print $2'}`
+ASLEAP=`grep -F "asleap_" /tmp/ManaToolkit/base | awk {'print $5'} | awk -F'"' {'print $2'}`
 #
 echo -e "${RED}Installing: ${NC}MANA-Toolkit."
 echo -e "Go grab a cup of coffee, this will take a while...\n"
 # Download installation-files to temporary directory, and then update OPKG repositories.
 cd /tmp
 opkg update
-wget "$ASLEAP"
-wget "$MANA"
+wget "https://github.com/adde88/hostapd-mana-openwrt/raw/master/bin/ar71xx/packages/base/"$ASLEAP""
+wget "https://github.com/adde88/hostapd-mana-openwrt/raw/master/bin/ar71xx/packages/base/"$MANA""
 #
 # Creating sym-link between python-directories located on the sd-card and internally.
 # The main-directory will be located on the sd-card (/sd)
 # This will only happen on the Pineapple NANO.
 if [ -e /sd ]; then
 	# sym-link & nano install
-	opkg --dest sd --force-overwrite install asleap_2.2-1_ar71xx.ipk hostapd-mana_"$mana_version"_ar71xx.ipk sslsplit
+	opkg --dest sd --force-overwrite install "$ASLEAP" "$MANA" sslsplit
 	ln -s /sd/etc/mana-toolkit /etc/mana-toolkit
 else
 	# Tetra installation / general install.
-	opkg --force-overwrite install asleap_2.2-1_ar71xx.ipk hostapd-mana_"$mana_version"_ar71xx.ipk sslsplit
+	opkg --force-overwrite install "$ASLEAP" "$MANA" sslsplit
 fi
 # Cleanup
-rm hostapd-mana_"$mana_version"_ar71xx.* asleap_2.2-1_ar71xx.*
+rm -f "$ASLEAP" "$MANA"
 # Disable stunnel init-script at boot.
 /etc/init.d/stunnel disable
 echo -e "${RED}Installation completed!"
