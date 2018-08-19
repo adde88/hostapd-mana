@@ -7,7 +7,11 @@ fi
 
 # configfile="./wpa_sycophant_example.conf"
 # interface="wlan1"
-supplicant="/usr/sbin/wpa_sycophant"
+if [ -d /sd ]; then
+  supplicant="/sd/usr/sbin/wpa_sycophant"
+else
+  supplicant="/usr/sbin/wpa_sycophant"
+fi
 
 # supplicant_location=''
 configfile=''
