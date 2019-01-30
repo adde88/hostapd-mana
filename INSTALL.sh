@@ -11,8 +11,8 @@ NC='\033[0m'
 #
 mkdir -p /tmp/ManaToolkit
 wget https://github.com/adde88/hostapd-mana-openwrt/tree/master/bin/ar71xx/packages/base -P /tmp/ManaToolkit
-MANA=`grep -F "hostapd-mana_" /tmp/ManaToolkit/base | awk {'print $5'} | awk -F'"' {'print $2'}`
-ASLEAP=`grep -F "asleap_" /tmp/ManaToolkit/base | awk {'print $5'} | awk -F'"' {'print $2'}`
+MANA=`grep -F "hostapd-mana_" /tmp/ManaToolkit/base | awk {'print $5'} | awk -F'"' {'print $2'} | grep ar71xx`
+ASLEAP=`grep -F "asleap_" /tmp/ManaToolkit/base | awk {'print $5'} | awk -F'"' {'print $2'} | grep ar71xx`
 #
 echo -e "${RED}Installing: ${NC}MANA-Toolkit."
 echo -e "Go grab a cup of coffee, this will take a while...\n"
