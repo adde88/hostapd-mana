@@ -1,4 +1,4 @@
-#!/usr/bin/python2.6
+#!/usr/bin/env python
 '''
 dns2proxy for offensive cybersecurity v1.0
 
