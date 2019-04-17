@@ -1,5 +1,5 @@
-https://raw.githubusercontent.com/adde88/hostapd-mana/master/dependencies/dns2proxy_1.0-1_ar71xx.ipk
-https://raw.githubusercontent.com/adde88/hostapd-mana/master/dependencies/libpcap_1.8.1-1_ar71xx.ipk
+https://raw.githubusercontent.com/adde88/hostapd-mana/master/dependencies/dns2proxy_1.0-2_ar71xx.ipk
+https://raw.githubusercontent.com/adde88/hostapd-mana/master/dependencies/libpcap_1.9.0-1_ar71xx.ipk
 https://raw.githubusercontent.com/adde88/hostapd-mana/master/dependencies/pyopenssl_0.10-1_ar71xx.ipk
 https://raw.githubusercontent.com/adde88/hostapd-mana/master/dependencies/python-dns_1.12.0-1_ar71xx.ipk
 https://raw.githubusercontent.com/adde88/hostapd-mana/master/dependencies/python-pcapy_0.10.9-1_ar71xx.ipk
