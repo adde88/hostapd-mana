@@ -11,11 +11,11 @@ PHY=`uci get ManaToolkit.run.interface`
 mana_output_file="/pineapple/modules/ManaToolkit/log/hostapd-mana_output.log"
 
 mana_pid=`pgrep hostapd-mana`
-sslstrip_pid=`pgrep -f sslstrip.py`
-sslsplit_pid=`pgrep sslsplit`
-dns2proxy_pid=`pgrep -f dns2proxy.py`
+sslstrip_pid=`pgrep -f sslstrip2`
+sslsplit_pid=`pgrep -f sslsplit`
+dns2proxy_pid=`pgrep -f dns2proxy`
 dnsmasq_pid=`pgrep -f "/etc/mana-toolkit/dnsmasq-dhcpd.conf"`
-netcreds_pid=`pgrep -f net-creds.py`
+netcreds_pid=`pgrep -f net-creds`
 
 if [ "$dnsmasq_pid" != "" ];then
 	kill -9 "$dnsmasq_pid"
@@ -47,4 +47,3 @@ fi
 
 ifconfig "$PHY" down
 ifconfig "$PHY" up
-

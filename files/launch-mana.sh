@@ -67,7 +67,7 @@ function is_mana_running {
 }
 
 function is_sslstrip_running {
-	sslstrip_pid=`pgrep -f sslstrip.py`
+	sslstrip_pid=`pgrep -f sslstrip2`
 	if [ "$sslstrip_pid" == "" ];then
 		echo -e "\n${RED}Exiting! (Error code: 5)\n${NC}SSLstrip+ was not launched correctly."
 		shutdown_mana
@@ -78,7 +78,7 @@ function is_sslstrip_running {
 }
 
 function is_sslsplit_running {
-	sslsplit_pid=`pgrep sslsplit`
+	sslsplit_pid=`pgrep -f sslsplit`
 	if [ "$sslsplit_pid" == "" ];then
 		echo -e "\n${RED}Exiting! (Error code: 6)\n${NC}SSLsplit was not launched correctly."
 		shutdown_mana
@@ -89,7 +89,7 @@ function is_sslsplit_running {
 }
 
 function is_dns2proxy_running {
-	dns2proxy_pid=`pgrep -f dns2proxy.py`
+	dns2proxy_pid=`pgrep -f dns2proxy`
 	if [ "$dns2proxy_pid" == "" ];then
 		echo -e "\n${RED}Exiting! (Error code: 7)\n${NC}DNS2Proxy was not launched correctly."
 		shutdown_mana
@@ -116,7 +116,7 @@ function is_dnsmasq_running {
 }
 
 function is_netcreds_running {
-	netcreds_pid=`pgrep -f net-creds.py`
+	netcreds_pid=`pgrep -f net-creds`
 	if [ "$netcreds_pid" == "" ];then
 		echo -e "\n${RED}Exiting! (Error code: 9)\n${NC}Net-Creds was not launched correctly."
 		shutdown_mana
@@ -128,11 +128,11 @@ function is_netcreds_running {
 
 function safe_startup {
 	mana_pid=`pgrep hostapd-mana`
-	sslstrip_pid=`pgrep -f sslstrip.py`
-	sslsplit_pid=`pgrep sslsplit`
-	dns2proxy_pid=`pgrep -f dns2proxy.py`
+	sslstrip_pid=`pgrep -f sslstrip2`
+	sslsplit_pid=`pgrep -f sslsplit`
+	dns2proxy_pid=`pgrep -f dns2proxy`
 	dnsmasq_pid=`pgrep -f "/etc/mana-toolkit/dnsmasq-dhcpd.conf"`
-	netcreds_pid=`pgrep -f net-creds.py`
+	netcreds_pid=`pgrep -f net-creds`
 	if [ "$dnsmasq_pid" != "" ];then
 		kill -9 "$dnsmasq_pid" &>/dev/null
 	fi
@@ -174,37 +174,28 @@ function check_sd {
 	if [ "$sd_card" == "1" ]; then
 		conf="/sd/etc/mana-toolkit/hostapd-mana.conf"
 		dhcp_conf="/sd/etc/mana-toolkit/dnsmasq-dhcpd.conf"
-		sslstrip_dir="/sd/usr/share/mana-toolkit/sslstrip-hsts/sslstrip2/"                
-		sslstrip_bin="/sd/usr/share/mana-toolkit/sslstrip-hsts/sslstrip2/sslstrip.py"
 		sslstrip_logfile="/pineapple/modules/ManaToolkit/log/SSLStrip+/sslstrip.log"
-		dns2proxy_dir="/sd/usr/share/mana-toolkit/sslstrip-hsts/dns2proxy/"
-		dns2proxy_bin="/sd/usr/share/mana-toolkit/sslstrip-hsts/dns2proxy/dns2proxy.py"
 		sslsplit_logdir="/pineapple/modules/ManaToolkit/log/SSL-Split"
 		ca_cert_pem="/sd/usr/share/mana-toolkit/cert/rogue-ca.pem"
 		ca_key="/sd/usr/share/mana-toolkit/cert/rogue-ca.key"
 		sslsplit_connect_log="/pineapple/modules/ManaToolkit/log/SSL-Split/sslsplit-connect.log"
-		netcreds_bin="/sd/usr/share/mana-toolkit/net-creds/net-creds.py"
 		netcreds_log="/pineapple/modules/ManaToolkit/log/Net-Creds/net-creds.log"
 		varlib="/sd/var/lib/mana-toolkit/"
 		ssid_filter="/sd/etc/mana-toolkit/hostapd.ssid_filter"
 	else
 		conf="/etc/mana-toolkit/hostapd-mana.conf"
 		dhcp_conf="/etc/mana-toolkit/dnsmasq-dhcpd.conf"
-		sslstrip_dir="/usr/share/mana-toolkit/sslstrip-hsts/sslstrip2/"
-		sslstrip_bin="/usr/share/mana-toolkit/sslstrip-hsts/sslstrip2/sslstrip.py"
 		sslstrip_logfile="/pineapple/modules/ManaToolkit/log/SSLStrip+/sslstrip.log"
-		dns2proxy_dir="/usr/share/mana-toolkit/sslstrip-hsts/dns2proxy/"                
-		dns2proxy_bin="/usr/share/mana-toolkit/sslstrip-hsts/dns2proxy/dns2proxy.py"
 		sslsplit_logdir="/pineapple/modules/ManaToolkit/log/SSL-Split"
 		ca_cert_pem="/usr/share/mana-toolkit/cert/rogue-ca.pem"
 		ca_key="/usr/share/mana-toolkit/cert/rogue-ca.key"
 		sslsplit_connect_log="/pineapple/modules/ManaToolkit/log/SSL-Split/sslsplit-connect.log"
-		netcreds_bin="/usr/share/mana-toolkit/net-creds/net-creds.py"
 		netcreds_log="/pineapple/modules/ManaToolkit/log/Net-Creds/net-creds.log"
 		varlib="/var/lib/mana-toolkit/"
 		ssid_filter="/etc/mana-toolkit/hostapd.ssid_filter"
 	fi
 	mkdir -p "$varlib"
+	
 }
 
 function check_interface {
@@ -257,12 +248,9 @@ function nat_forward {
 }
 
 function sslstrip_plus_start {
-	cd "$sslstrip_dir" > /dev/null
-	{ python sslstrip.py -l 10000 -a -w "$sslstrip_logfile" >/dev/null 2>&1 & }
+	{ sslstrip2 -l 10000 -a -w "$sslstrip_logfile" >/dev/null 2>&1 & }
 	iptables -t nat -A PREROUTING -i $phy -p tcp --destination-port 80 -j REDIRECT --to-port 10000
-	cd "$dns2proxy_dir" > /dev/null
-	{ python dns2proxy.py -i "$phy" >/dev/null 2>&1 & }
-	cd - > /dev/null
+	{ dns2proxy -i "$phy" >/dev/null 2>&1 & }
 }
 
 function sslsplit_start {
@@ -290,7 +278,7 @@ function sslsplit_iptables {
 }
 
 function netcreds_start {
-	{ python "$netcreds_bin" -i "$phy" >> "$netcreds_log" >/dev/null 2>&1 & }
+	{ net-creds -i "$phy" >> "$netcreds_log" >/dev/null 2>&1 & }
 }
 
 function shutdown_mana {
@@ -354,7 +342,7 @@ function startup {
 				fking_rule                                                                      # Add fking rule to table 1006
 				flush_iptables                                                                  # Flush
 				masquerade_start                                                                # Masquerade
-				sslstrip_plus_start                                                             # SSLStrip+ with HSTS bypass
+				sslstrip_plus_start                                                             # SSLStrip2 with HSTS bypass
 				sslsplit_start                                                                  # SSLSplit
 				sslsplit_iptables                                                               # Setup IPtables for SSLsplit
 				netcreds_start                                                                  # Start net-creds
