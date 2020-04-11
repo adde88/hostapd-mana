@@ -460,7 +460,9 @@ static void show_version(void)
 		"Original MANA EAP by Ian (ian@sensepost.com)\n"
  		"Original karma patches by Robin Wood - robin@digininja.org\n"
  		"Original EAP patches by Brad Antoniewicz @brad_anton\n"
-		"Sycophant by Michael Kruger @_cablethief");
+		"Sycophant by Michael Kruger @_cablethief\n"
+		"OpenWRT port by Andreas Nilsen @adde88");
+
 }
 
 
