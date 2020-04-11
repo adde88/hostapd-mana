@@ -11,7 +11,7 @@ SD="/sd"
 if [ ! -d "$DIRECTORY" ]; then
   echo -e '\nDownloading python-related dependencies,as they seem to be missing...'
   mkdir -p "$DIRECTORY"
-  wget -i /etc/mana-toolkit/dependencies.txt -P /tmp/mana_dependencies/ --progress=bar:force:noscroll
+  wget -i /etc/hostapd-mana/dependencies.txt -P /tmp/mana_dependencies/ --progress=bar:force:noscroll
   echo -e '\nInstalling dependencies...'
   if [ ! -d "$SD" ]; then
     opkg install "$DIRECTORY"*.ipk --force-checksum

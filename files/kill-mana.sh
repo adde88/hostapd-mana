@@ -14,7 +14,7 @@ mana_pid=`pgrep hostapd-mana`
 sslstrip_pid=`pgrep -f sslstrip2`
 sslsplit_pid=`pgrep -f sslsplit`
 dns2proxy_pid=`pgrep -f dns2proxy`
-dnsmasq_pid=`pgrep -f "/etc/mana-toolkit/dnsmasq-dhcpd.conf"`
+dnsmasq_pid=`pgrep -f "/etc/hostapd-mana/dnsmasq-dhcpd.conf"`
 netcreds_pid=`pgrep -f net-creds`
 
 if [ "$dnsmasq_pid" != "" ];then

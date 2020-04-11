@@ -108,9 +108,9 @@ if __name__ == '__main__':
 	VERBOSE=1
 	THREADS=10
 	RUNFILE="/tmp/crackapd.run"
-	HOSTAPD="/etc/mana-toolkit/hostapd-karma-eap.conf"
-	EAPUSER="/etc/mana-toolkit/hostapd.eap_user"
-	ENNODES="/var/lib/mana-toolkit/ennode.node"
+	HOSTAPD="/etc/hostapd-mana/hostapd-karma-eap.conf"
+	EAPUSER="/etc/hostapd-mana/hostapd.eap_user"
+	ENNODES="/var/lib/hostapd-mana/ennode.node"
 	CRACKEX="/usr/bin/asleap"
 	WORDLST="/usr/share/wordlists/rockyou.txt"
 

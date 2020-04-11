@@ -100,14 +100,14 @@ function is_dns2proxy_running {
 }
 
 function is_dnsmasq_running {
-	dnsmasq_pid=`pgrep -f "/etc/mana-toolkit/dnsmasq-dhcpd.conf"`
+	dnsmasq_pid=`pgrep -f "/etc/hostapd-mana/dnsmasq-dhcpd.conf"`
 	if [ "$noupstream" != 1 ];then
 		if [ "$dnsmasq_pid" == "" ];then
 			echo -e "\n${RED}Exiting! (Error code: 8)\n${NC}DHCP Server (dnsmasq) did not launch correctly."
 			shutdown_mana
 			exit 8
 		else
-			dnsmasq_pid=`pgrep -f "/etc/mana-toolkit/dnsmasq-dhcpd.conf"`
+			dnsmasq_pid=`pgrep -f "/etc/hostapd-mana/dnsmasq-dhcpd.conf"`
 			echo -e "\n${GREEN}DHCP Server ${NC} is running with pid: ${dnsmasq_pid}"
 		fi
 	else
@@ -131,7 +131,7 @@ function safe_startup {
 	sslstrip_pid=`pgrep -f sslstrip2`
 	sslsplit_pid=`pgrep -f sslsplit`
 	dns2proxy_pid=`pgrep -f dns2proxy`
-	dnsmasq_pid=`pgrep -f "/etc/mana-toolkit/dnsmasq-dhcpd.conf"`
+	dnsmasq_pid=`pgrep -f "/etc/hostapd-mana/dnsmasq-dhcpd.conf"`
 	netcreds_pid=`pgrep -f net-creds`
 	if [ "$dnsmasq_pid" != "" ];then
 		kill -9 "$dnsmasq_pid" &>/dev/null
@@ -172,27 +172,27 @@ function check_sd {
 		sd_card="1"
 	fi
 	if [ "$sd_card" == "1" ]; then
-		conf="/sd/etc/mana-toolkit/hostapd-mana.conf"
-		dhcp_conf="/sd/etc/mana-toolkit/dnsmasq-dhcpd.conf"
+		conf="/sd/etc/hostapd-mana/hostapd-mana.conf"
+		dhcp_conf="/sd/etc/hostapd-mana/dnsmasq-dhcpd.conf"
 		sslstrip_logfile="/pineapple/modules/ManaToolkit/log/SSLStrip+/sslstrip.log"
 		sslsplit_logdir="/pineapple/modules/ManaToolkit/log/SSL-Split"
-		ca_cert_pem="/sd/usr/share/mana-toolkit/cert/rogue-ca.pem"
-		ca_key="/sd/usr/share/mana-toolkit/cert/rogue-ca.key"
+		ca_cert_pem="/sd/usr/share/hostapd-mana/cert/rogue-ca.pem"
+		ca_key="/sd/usr/share/hostapd-mana/cert/rogue-ca.key"
 		sslsplit_connect_log="/pineapple/modules/ManaToolkit/log/SSL-Split/sslsplit-connect.log"
 		netcreds_log="/pineapple/modules/ManaToolkit/log/Net-Creds/net-creds.log"
-		varlib="/sd/var/lib/mana-toolkit/"
-		ssid_filter="/sd/etc/mana-toolkit/hostapd.ssid_filter"
+		varlib="/sd/var/lib/hostapd-mana/"
+		ssid_filter="/sd/etc/hostapd-mana/hostapd.ssid_filter"
 	else
-		conf="/etc/mana-toolkit/hostapd-mana.conf"
-		dhcp_conf="/etc/mana-toolkit/dnsmasq-dhcpd.conf"
+		conf="/etc/hostapd-mana/hostapd-mana.conf"
+		dhcp_conf="/etc/hostapd-mana/dnsmasq-dhcpd.conf"
 		sslstrip_logfile="/pineapple/modules/ManaToolkit/log/SSLStrip+/sslstrip.log"
 		sslsplit_logdir="/pineapple/modules/ManaToolkit/log/SSL-Split"
-		ca_cert_pem="/usr/share/mana-toolkit/cert/rogue-ca.pem"
-		ca_key="/usr/share/mana-toolkit/cert/rogue-ca.key"
+		ca_cert_pem="/usr/share/hostapd-mana/cert/rogue-ca.pem"
+		ca_key="/usr/share/hostapd-mana/cert/rogue-ca.key"
 		sslsplit_connect_log="/pineapple/modules/ManaToolkit/log/SSL-Split/sslsplit-connect.log"
 		netcreds_log="/pineapple/modules/ManaToolkit/log/Net-Creds/net-creds.log"
-		varlib="/var/lib/mana-toolkit/"
-		ssid_filter="/etc/mana-toolkit/hostapd.ssid_filter"
+		varlib="/var/lib/hostapd-mana/"
+		ssid_filter="/etc/hostapd-mana/hostapd.ssid_filter"
 	fi
 	mkdir -p "$varlib"
 	
