@@ -20,7 +20,7 @@
 #	Queue for work items
 #	Lock for locking
 #	Thread for threading
-import Queue
+import queue
 import os.path
 import os
 from threading import Lock
@@ -33,7 +33,7 @@ LOCK = Lock()
 def PrintResult(verbose, message):
 	if (verbose > 0):
 		LOCK.acquire()
-		print message
+		print (message)
 		LOCK.release()
 
 def WriteResult(s_file, s_string):
@@ -112,16 +112,17 @@ if __name__ == '__main__':
 	EAPUSER="/etc/hostapd-mana/hostapd.eap_user"
 	ENNODES="/var/lib/hostapd-mana/ennode.node"
 	CRACKEX="/usr/bin/asleap"
-	WORDLST="/usr/share/wordlists/rockyou.txt"
+	WORDLST="/usr/share/wordlists/crackapd.txt"
 
 	# Global Variables.  These are calculated... :P
-	WRKQUEUE = Queue.Queue()
+	WRKQUEUE = queue.Queue()
 
 	# Print a nice header...
 	PrintResult(VERBOSE, "MANA - CrackApd - crackapd.py")
 	PrintResult(VERBOSE, "MANA - CrackApd - Version 1.0")
 	PrintResult(VERBOSE, "MANA - CrackApd - Copyright - SensePost (Pty) Ltd - 2014")
 	PrintResult(VERBOSE, "MANA - CrackApd - Ian de Villiers <ian@sensepost.com>")
+	PrintResult(VERBOSE, "MANA - CrackApd - Modified by: Andreas Nilsen <adde88@gmail.com>")
 	PrintResult(VERBOSE, "MANA - CrackApd - ")
 
 	# Read Configuration Variables...
